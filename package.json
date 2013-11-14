@@ -23,5 +23,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bahmutov/proud-connect/issues"
+  },
+  "dependencies": {
+    "connect": "~2.11.0",
+    "proud-badge": "0.0.0"
   }
 }
