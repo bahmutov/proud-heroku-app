@@ -2,7 +2,17 @@
 
 Simple server returning NPM stats and badges by author username
 
-![example badge](http://localhost:3000/bahmutov)
+![bahmutov badge](http://proud.herokuapp.com/bahmutov)
+
+Use Markdown
+
+    ![bahmutov badge](http://proud.herokuapp.com/bahmutov)
+
+Or HTML
+
+    <img src="http://proud.herokuapp.com/bahmutov"></img>
+
+to generate number of total NPM downloads in the last month.
 
 ## Small print
 
