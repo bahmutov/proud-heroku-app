@@ -45,7 +45,7 @@ function generateBadge(username) {
 function getBadge(username) {
   check.verify.unemptyString(username, 'expected username');
 
-  var oldDate = moment().subtract('minutes', 1);
+  var oldDate = moment().subtract('days', 1);
   if (badges[username] && badges[username].image) {
     if (badges[username].date.isBefore(oldDate)) {
       console.log('badge for', username, 'is out of date');
