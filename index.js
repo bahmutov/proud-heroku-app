@@ -6,25 +6,58 @@ var report = require('./src/report');
 var fs = require('fs');
 var check = require('check-types');
 var Q = require('q');
+var moment = require('moment');
 
 var port = process.env.PORT || 3000;
 
-// badge images by username
+// username -> {image, date}
 var badges = {};
 
-function getBadge(username) {
+function generateBadge(username) {
   check.verify.unemptyString(username, 'expected username');
-  if (badges[username]) {
-    return badges[username];
+
+  if (badge[username] && badge[username].generating) {
+    return badge[username].generating;
   }
 
-  return badge(username)
+  if (!badge[username]) {
+    badge[username] = {};
+  }
+
+  // just keep promise in the image's placeholder
+  badge[username].generating = badge(username)
   .then(function (filename) {
     check.verify.unemptyString(filename, 'expected generated badge filename');
     var image = fs.readFileSync(filename);
-    badges[username] = image;
+    badges[username] = {
+      image: image,
+      date: new moment()
+    };
+
+    fs.unlinkSync(filename);
+
     return image;
   });
+
+  return badge[username].generating;
+}
+
+function getBadge(username) {
+  check.verify.unemptyString(username, 'expected username');
+
+  var oldDate = moment().subtract('minutes', 1);
+  if (badges[username] && badges[username].image) {
+    if (badges[username].date.isBefore(oldDate)) {
+      console.log('badge for', username, 'is out of date');
+      return generateBadge(username);
+    }
+
+    if (badges[username].image) {
+      return badges[username].image;
+    }
+  }
+
+  return generateBadge(username);
 }
 
 function sendBadge(username, res) {
