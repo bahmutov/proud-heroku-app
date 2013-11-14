@@ -4,12 +4,43 @@ var proud = require('proud');
 // var proudBadge = require('proud-badge');
 var report = require('./src/report');
 var fs = require('fs');
+var check = require('check-types');
 
 var port = process.env.PORT || 3000;
 
 function getBadge(username) {
   var image = fs.readFileSync(username + '.png');
   return image;
+}
+
+function sendBadge(username, res) {
+  console.log('returning badge image for', username);
+  check.verify.unemptyString(username, 'expected username');
+
+  var image = getBadge(username);
+  res.writeHead(200, {
+    'Content-Length': image.length,
+    'Content-Type': 'image/png'
+  });
+  res.write(image);
+  res.end();
+}
+
+function sendTextReport(username, res) {
+  console.log('returning text for', username);
+
+  proud(username)
+  .then(report.bind(null, username))
+  .then(function (report) {
+    console.log('report', report);
+
+    if (!report) {
+      res.end(username + ' has no modules\n');
+    } else {
+      res.end(report);
+    }
+  })
+  .catch(console.error);
 }
 
 var app = connect()
@@ -32,30 +63,9 @@ var app = connect()
     }
 
     if (/image/.test(req.headers.accept)) {
-      console.log('returning badge image for', username);
-
-      var image = getBadge(username);
-      res.writeHead(200, {
-        'Content-Length': image.length,
-        'Content-Type': 'image/png'
-      });
-      res.write(image);
-      res.end();
+      sendBadge(username, res);
     } else {
-      console.log('returning text for', username);
-
-      proud(username)
-      .then(report.bind(null, username))
-      .then(function (report) {
-        console.log('report', report);
-
-        if (!report) {
-          res.end(username + ' has no modules\n');
-        } else {
-          res.end(report);
-        }
-      })
-      .catch(console.error);
+      sendTextReport(username, res);
     }
   });
 
