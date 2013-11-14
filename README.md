@@ -2,6 +2,8 @@
 
 Simple server returning NPM stats and badges by author username
 
+![example badge](http://localhost:3000/bahmutov)
+
 ## Small print
 
 Author: Gleb Bahmutov &copy; 2013

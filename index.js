@@ -3,8 +3,14 @@ var http = require('http');
 var proud = require('proud');
 // var proudBadge = require('proud-badge');
 var report = require('./src/report');
+var fs = require('fs');
 
 var port = process.env.PORT || 3000;
+
+function getBadge(username) {
+  var image = fs.readFileSync(username + '.png');
+  return image;
+}
 
 var app = connect()
   .use(connect.favicon())
@@ -24,20 +30,33 @@ var app = connect()
       res.end();
       return;
     }
-    console.log(username);
 
-    proud(username)
-    .then(report.bind(null, username))
-    .then(function (report) {
-      console.log('report', report);
+    if (/image/.test(req.headers.accept)) {
+      console.log('returning badge image for', username);
 
-      if (!report) {
-        res.end(username + ' has no modules\n');
-      } else {
-        res.end(report);
-      }
-    })
-    .catch(console.error);
+      var image = getBadge(username);
+      res.writeHead(200, {
+        'Content-Length': image.length,
+        'Content-Type': 'image/png'
+      });
+      res.write(image);
+      res.end();
+    } else {
+      console.log('returning text for', username);
+
+      proud(username)
+      .then(report.bind(null, username))
+      .then(function (report) {
+        console.log('report', report);
+
+        if (!report) {
+          res.end(username + ' has no modules\n');
+        } else {
+          res.end(report);
+        }
+      })
+      .catch(console.error);
+    }
   });
 
 http.createServer(app).listen(port);
