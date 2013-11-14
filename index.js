@@ -1,29 +1,56 @@
 var connect = require('connect');
 var http = require('http');
 var proud = require('proud');
-// var proudBadge = require('proud-badge');
+var badge = require('proud-badge');
 var report = require('./src/report');
 var fs = require('fs');
 var check = require('check-types');
+var Q = require('q');
 
 var port = process.env.PORT || 3000;
 
+// badge images by username
+var badges = {};
+
 function getBadge(username) {
-  var image = fs.readFileSync(username + '.png');
-  return image;
+  check.verify.unemptyString(username, 'expected username');
+  if (badges[username]) {
+    return badges[username];
+  }
+
+  return badge(username)
+  .then(function (filename) {
+    check.verify.unemptyString(filename, 'expected generated badge filename');
+    var image = fs.readFileSync(filename);
+    badges[username] = image;
+    return image;
+  });
 }
 
 function sendBadge(username, res) {
   console.log('returning badge image for', username);
   check.verify.unemptyString(username, 'expected username');
 
-  var image = getBadge(username);
-  res.writeHead(200, {
-    'Content-Length': image.length,
-    'Content-Type': 'image/png'
+  Q.when(getBadge(username))
+  .then(function (image) {
+    if (!image) {
+      throw new Error('Undefined image for user ' + username);
+    }
+
+    res.writeHead(200, {
+      'Content-Length': image.length,
+      'Content-Type': 'image/png'
+    });
+    res.write(image);
+    res.end();
+  })
+  .catch(function (err) {
+    console.error('Error generating badge for', username);
+    console.error(err);
+    console.error(err.stack);
+    res.writeHead(500, err);
+    res.end();
   });
-  res.write(image);
-  res.end();
 }
 
 function sendTextReport(username, res) {

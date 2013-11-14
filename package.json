@@ -27,11 +27,12 @@
   },
   "dependencies": {
     "connect": "~2.11.0",
-    "proud-badge": "0.0.0",
+    "proud-badge": "0.0.1",
     "proud": "0.0.4",
     "easy-table": "~0.2.0",
     "lodash": "~2.3.0",
-    "check-types": "~1.1.0"
+    "check-types": "~1.1.0",
+    "q": "~0.9.7"
   },
   "devDependencies": {
     "nodemon": "~0.7.10"
