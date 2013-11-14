@@ -13,12 +13,22 @@ var port = process.env.PORT || 3000;
 // username -> {image, date}
 var badges = {};
 
+function ensureSpace() {
+  var maxN = 1000;
+  if (Object.keys(badges).length > maxN) {
+    console.log('freeing space');
+    // todo: sort by date, remove oldest
+  }
+}
+
 function generateBadge(username) {
   check.verify.unemptyString(username, 'expected username');
 
   if (badge[username] && badge[username].generating) {
     return badge[username].generating;
   }
+
+  ensureSpace();
 
   if (!badge[username]) {
     badge[username] = {};
