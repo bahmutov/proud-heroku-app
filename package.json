@@ -1,0 +1,27 @@
+{
+  "name": "proud-connect",
+  "version": "0.0.0",
+  "description": "Connect server generating NPM downloads badges by author",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bahmutov/proud-connect.git"
+  },
+  "keywords": [
+    "npm",
+    "npm-stats",
+    "badges",
+    "server",
+    "downloads",
+    "stats",
+    "connect"
+  ],
+  "author": "Gleb Bahmutov @bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bahmutov/proud-connect/issues"
+  }
+}
