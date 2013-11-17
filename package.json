@@ -1,0 +1,34 @@
+{
+  "name": "proud-heroku-app",
+  "version": "0.0.1",
+  "description": "Heroku app returning badges with NPM downloads by author",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./node_modules/nodemon/nodemon.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bahmutov/proud-heroku-app.git"
+  },
+  "keywords": [
+    "npm",
+    "npm-stats",
+    "badges",
+    "server",
+    "downloads",
+    "stats",
+    "connect",
+    "Heroku"
+  ],
+  "author": "Gleb Bahmutov @bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bahmutov/proud-heroku-app/issues"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "nodemon": "~0.9.6"
+  }
+}
