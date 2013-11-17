@@ -1,18 +1,9 @@
-# proud-connect
+# proud-heroku-app
 
-Simple server returning NPM stats and badges by author username
+Heroku app wrapping around [proud-connect](https://github.com/bahmutov/proud-connect) service.
 
-![bahmutov badge](http://proud.herokuapp.com/bahmutov)
-
-Use Markdown
-
-    ![bahmutov badge](http://proud.herokuapp.com/bahmutov)
-
-Or HTML
-
-    <img src="http://proud.herokuapp.com/bahmutov"></img>
-
-to generate number of total NPM downloads in the last month.
+I created this wrapper to avoid checking in *node_modules* folder in the main
+**proud-connect** implementation.
 
 ## Small print
 
