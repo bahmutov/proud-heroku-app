@@ -1,4 +1,3 @@
-var check = require('check-types');
 var Q = require('q');
 var dexec = require('deferred-exec');
 
@@ -8,6 +7,9 @@ function convertVersion() {
 
   dexec('convert --version')
   .done(function (stdout, stderr) {
+    if (stderr) {
+      console.log(stderr);
+    }
     defer.resolve(stdout);
   })
   .fail(function (err) {

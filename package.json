@@ -27,9 +27,9 @@
     "url": "https://github.com/bahmutov/proud-heroku-app/issues"
   },
   "dependencies": {
-    "proud-connect": "0.0.1"
+    "proud-connect": "0.0.4"
   },
   "devDependencies": {
-    "nodemon": "~0.9.6"
+    "nodemon": "~0.9.7"
   }
 }
